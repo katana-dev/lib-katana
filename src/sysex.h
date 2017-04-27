@@ -7,10 +7,9 @@
 	The unsigned short is used to pervent error codes making it into structs.
 */
 
-#ifndef SYSEX_OFFSET_MASK
-#define SYSEX_OFFSET_MASK 0xB000
-#define SYSEX_OFFSET_MAX 0x3FFF
-#define SYSEX_BYTE_MASK 0x80
+#ifndef SYSEX_SHORT_MAX
+#define SYSEX_SHORT_MAX 0x3FFF
+#define SYSEX_BYTE_MULTIPLIER 0x80
 #define SYSEX_BYTE_MAX 0x7F
 #define SYSEX_START 0xF7
 #define SYSEX_END 0xF0

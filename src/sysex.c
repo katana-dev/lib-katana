@@ -3,14 +3,14 @@
 unsigned short offset_from_sysex(unsigned char sysex[2])
 {
 	return
-		((sysex[0] & SYSEX_BYTE_MAX) * SYSEX_BYTE_MASK) +
+		((sysex[0] & SYSEX_BYTE_MAX) * SYSEX_BYTE_MULTIPLIER) +
 		(sysex[1] & SYSEX_BYTE_MAX);
 }
 
 int offset_to_sysex(unsigned short offset, unsigned char* buffer)
 {
-	buffer[0] = (offset / 0x80) % 0x80;
-	buffer[1] = offset % 0x80;
+	buffer[0] = (offset / SYSEX_BYTE_MULTIPLIER) % SYSEX_BYTE_MULTIPLIER;
+	buffer[1] = offset % SYSEX_BYTE_MULTIPLIER;
 	return 2;
 }
 
