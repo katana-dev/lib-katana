@@ -4,6 +4,14 @@ import (
 	libktn "github.com/katana-dev/lib-katana"
 )
 
+const (
+	CH1Region   = 2049  //10 01
+	CH2Region   = 2050  //10 02
+	CH3Region   = 2051  //10 03
+	CH4Region   = 2052  //10 04
+	PanelRegion = 12288 //60 00
+)
+
 //Represents an address in sysex memory.
 type Address struct {
 	Region libktn.Uint14

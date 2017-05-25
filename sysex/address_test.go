@@ -2,6 +2,7 @@ package sysex
 
 import (
 	"testing"
+
 	"github.com/stvp/assert"
 
 	libktn "github.com/katana-dev/lib-katana"
