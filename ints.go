@@ -1,5 +1,9 @@
 package libktn
 
+import (
+	"math"
+)
+
 type Uint7 uint8
 type Uint14 uint16
 type Uint28 uint32
@@ -9,7 +13,7 @@ const (
 	sysexByteMax    = 0x7F
 	sysexByteFactor = 0x80
 	sysexShortMax   = 0x3FFF
-	sysexWordMax    = 0x1FFFFF
+	sysexWordMax    = 0xFFFFFFF
 )
 
 //Converts from a 7bit sysex to an integer.
@@ -81,7 +85,8 @@ func MakeUint28(sysex []byte) (Uint28, error) {
 	//[0x80^3, 0x80^2, 0x80^1, 0x80^0]
 	acc := Uint28(0)
 	for i := len(b) - 1; i >= 0; i-- {
-		acc += Uint28(b[i]) * Uint28(sysexByteFactor^i)
+		j := len(b) - i - 1
+		acc += Uint28(b[j]) * uint28Pow(sysexByteFactor, Uint28(i))
 	}
 
 	return acc, nil
@@ -94,9 +99,13 @@ func (u Uint28) Sysex() ([]byte, error) {
 	}
 
 	return []byte{
-		byte((u/sysexByteFactor ^ 3) % sysexByteFactor),
-		byte((u/sysexByteFactor ^ 2) % sysexByteFactor),
+		byte((u / uint28Pow(sysexByteFactor, 3)) % sysexByteFactor),
+		byte((u / uint28Pow(sysexByteFactor, 2)) % sysexByteFactor),
 		byte((u / sysexByteFactor) % sysexByteFactor),
 		byte(u % sysexByteFactor),
 	}, nil
+}
+
+func uint28Pow(b, p Uint28) Uint28 {
+	return Uint28(math.Pow(float64(b), float64(p)))
 }

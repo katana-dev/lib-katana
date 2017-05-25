@@ -2,6 +2,7 @@ package libktn
 
 import (
 	"testing"
+
 	"github.com/stvp/assert"
 )
 
@@ -74,13 +75,56 @@ func TestMakeUint14(t *testing.T) {
 		v, e = MakeUint14(in)
 		assert.Equal(t, ErrOutOfBounds, e)
 		assert.Equal(t, Uint14(0), v)
-
-		s, e = Uint14(0xFFFF).Sysex()
-		assert.Equal(t, ErrOutOfBounds, e)
-		assert.Nil(t, s)
 	}
+
+	s, e = Uint14(0xFFFF).Sysex()
+	assert.Equal(t, ErrOutOfBounds, e)
+	assert.Nil(t, s)
 
 	v, e = MakeUint14([]byte{1, 2, 3})
 	assert.Equal(t, SliceLengthError{2}, e)
 	assert.Equal(t, Uint14(0), v)
+}
+
+func TestMakeUint28(t *testing.T) {
+	var (
+		valid = [][]byte{
+			[]byte{0x00, 0x00, 0x00, 0x00},
+			[]byte{0x00, 0x42, 0x00, 0x42},
+			[]byte{0x42, 0x42, 0x42, 0x42},
+			[]byte{0x7F, 0x7F, 0x7F, 0x7F},
+		}
+		oob = [][]byte{
+			[]byte{0x7F, 0xFF, 0x7F, 0xFF},
+			[]byte{0xFF, 0x7F, 0xFF, 0x7F},
+		}
+	)
+
+	var (
+		v Uint28
+		s []byte
+		e error
+	)
+
+	for _, in := range valid {
+		v, e = MakeUint28(in)
+		assert.Nil(t, e)
+		s, e = v.Sysex()
+		assert.Nil(t, e)
+		assert.Equal(t, in, s)
+	}
+
+	for _, in := range oob {
+		v, e = MakeUint28(in)
+		assert.Equal(t, ErrOutOfBounds, e)
+		assert.Equal(t, Uint28(0), v)
+	}
+
+	s, e = Uint28(0xFFFFFFFF).Sysex()
+	assert.Equal(t, ErrOutOfBounds, e)
+	assert.Nil(t, s)
+
+	v, e = MakeUint28([]byte{1, 2, 3, 4, 5})
+	assert.Equal(t, SliceLengthError{4}, e)
+	assert.Equal(t, Uint28(0), v)
 }
