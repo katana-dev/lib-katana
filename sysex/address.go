@@ -12,6 +12,16 @@ const (
 	PanelRegion = 12288 //60 00
 )
 
+var (
+	MutablePatchRegions = map[libktn.Uint14]bool{
+		CH1Region:   true,
+		CH2Region:   true,
+		CH3Region:   true,
+		CH4Region:   true,
+		PanelRegion: true,
+	}
+)
+
 //Represents an address in sysex memory.
 type Address struct {
 	Region libktn.Uint14
