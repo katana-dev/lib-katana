@@ -13,7 +13,7 @@ Shared library for Boss Katana management tasks.
 
 Go is a new language for me personally, is a recently created language and not a lot of people are
 using it for shared libraries at the moment.
-So odds are that I'm going to get thing wrong the first time around.
+So odds are that I'm going to get things wrong the first time around.
 
 In the `0.x.x` versions the focus is on fleshing out the library and not sweating too much about
 the details of the library architecture or the ideal APIs.

@@ -132,8 +132,8 @@ func byteOffset(offset libktn.Uint14) libktn.Uint14 {
 			continue
 		}
 
-		//Overshot a boundary, meaning it's a discard offset.
-		if b.begin < offset {
+		//Last boundary ended, but next hasn't begun. It's a discard offset.
+		if b.begin > offset {
 			return offDiscard
 		}
 
