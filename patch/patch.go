@@ -11,6 +11,11 @@ const (
 	EncSparse uint16 = 0
 )
 
+const (
+	offFxChain = 928 //07 20
+	lenFxChain = 20
+)
+
 var (
 	ErrUnknownEncoding = errors.New("Unknown encoding flags")
 	ErrDiscardedOffset = errors.New("Patch encoding discards this offset")
@@ -19,6 +24,7 @@ var (
 type WriteStat struct{ written, discarded libktn.Uint14 }
 
 type Patch interface {
+	GetFxChain() []libktn.Uint7
 	GetByte(libktn.Uint14) (libktn.Uint7, error)
 	GetShort(libktn.Uint14) (libktn.Uint14, error)
 	WriteBytes(libktn.Uint14, []byte) (WriteStat, error)

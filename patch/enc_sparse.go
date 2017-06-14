@@ -90,6 +90,15 @@ func (p *SparsePatch) WriteBytes(offset libktn.Uint14, data []byte) (WriteStat, 
 	return stat, nil
 }
 
+func (p *SparsePatch) GetFxChain() []libktn.Uint7 {
+	c := make([]libktn.Uint7, lenFxChain)
+	o := byteOffset(offFxChain)
+	for i, b := range p.data[o : o+lenFxChain] {
+		c[i] = libktn.Uint7(b)
+	}
+	return c
+}
+
 func (p *SparsePatch) GetByte(offset libktn.Uint14) (libktn.Uint7, error) {
 	if offset > offMax {
 		return 0, libktn.ErrOutOfBounds
