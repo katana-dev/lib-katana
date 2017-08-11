@@ -1,12 +1,7 @@
 package main
 
 /*
-
-typedef struct {
-	void* data;
-	int size;
-} KtnSizedArray;
-
+#include "common.h"
 */
 import "C"
 
@@ -70,14 +65,14 @@ func ktn_get_patch_short_lossy(n C.int, off C.ushort) C.ushort {
 }
 
 //export ktn_get_patch_fx_chain
-func ktn_get_patch_fx_chain(n C.int) C.KtnSizedArray {
+func ktn_get_patch_fx_chain(n C.int) unsafe.Pointer {
 	p := getObj(int32(n)).(patch.Patch)
 	v := p.GetFxChain()
 	c := make([]byte, len(v))
 	for i, b := range v {
 		c[i] = byte(b)
 	}
-	return C.KtnSizedArray{data: C.CBytes(c), size: C.int(len(c))}
+	return NewCByteSlice(c)
 }
 
 func main() {}
