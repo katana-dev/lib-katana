@@ -258,7 +258,7 @@ func query(deviceId byte, addr Address, size libktn.Uint28) ([]byte, error) {
 		return nil, aerr
 	}
 
-	s, serr := addr.Sysex()
+	s, serr := size.Sysex()
 	if serr != nil {
 		return nil, serr
 	}
@@ -292,7 +292,7 @@ func command(deviceId byte, addr Address, data []byte) ([]byte, error) {
 	b.WriteByte(vendorId)
 	b.WriteByte(deviceId)
 	b.Write(modelId)
-	b.WriteByte(queryFlag)
+	b.WriteByte(commandFlag)
 	b.Write(a)
 	b.Write(data)
 	b.WriteByte(Checksum(a, data))

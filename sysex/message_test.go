@@ -8,6 +8,8 @@ import (
 	libktn "github.com/katana-dev/lib-katana"
 )
 
+//TODO: Test Sysex methods
+
 func TestParseIdRequest(t *testing.T) {
 	var (
 		valid = map[[6]byte]SysexMessage{
